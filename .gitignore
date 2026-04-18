@@ -13,3 +13,9 @@ __pycache__/
 .venv/
 *.egg-info/
 dist/
+
+# Test cache
+.pytest_cache/
+
+# Exported data files (generated, not source)
+*.parquet
