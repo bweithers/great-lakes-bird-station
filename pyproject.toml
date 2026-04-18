@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "birdstation"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "duckdb>=0.10.0",
+    "boto3>=1.34.0",
+    "requests>=2.31.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "moto[s3]>=5.0.0",
+]
+
+[project.scripts]
+birdstation-ingest = "birdstation.ingest:run"
+birdstation-export = "birdstation.export:run"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,1 +1,15 @@
 .worktrees/
+
+# Runtime data
+recordings/new/*.wav
+recordings/processed/*.wav
+results/*.csv
+*.duckdb
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+dist/
