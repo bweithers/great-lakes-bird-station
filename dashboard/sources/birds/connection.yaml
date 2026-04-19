@@ -1,0 +1,4 @@
+name: birds
+type: duckdb
+options:
+  filename: ":memory:"
