@@ -23,5 +23,8 @@ dev = [
 birdstation-ingest = "birdstation.ingest:run"
 birdstation-export = "birdstation.export:run"
 
+[tool.setuptools.packages.find]
+include = ["birdstation*"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
