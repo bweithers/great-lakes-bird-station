@@ -1,0 +1,16 @@
+[Unit]
+Description=Birdstation — continuous audio recorder
+After=network.target
+
+[Service]
+Type=simple
+User=birdstation
+EnvironmentFile=/opt/birdstation/.env
+ExecStart=/opt/birdstation/scripts/record.sh
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

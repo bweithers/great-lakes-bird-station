@@ -1,0 +1,12 @@
+[Unit]
+Description=Birdstation — analyze recordings and ingest to DuckDB
+After=network.target
+
+[Service]
+Type=oneshot
+User=birdstation
+WorkingDirectory=/opt/birdstation
+EnvironmentFile=/opt/birdstation/.env
+ExecStart=/opt/birdstation/.venv/bin/birdstation-ingest
+StandardOutput=journal
+StandardError=journal

@@ -1,0 +1,10 @@
+[Unit]
+Description=Birdstation — run analyze+ingest every 5 minutes
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=5min
+Unit=birdstation-analyze.service
+
+[Install]
+WantedBy=timers.target
