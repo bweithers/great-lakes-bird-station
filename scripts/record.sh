@@ -4,7 +4,8 @@
 
 set -euo pipefail
 
-: "${RECORDINGS_NEW_DIR:?RECORDINGS_NEW_DIR must be set}"
+: "${BIRDSTATION_RECORDINGS_DIR:?BIRDSTATION_RECORDINGS_DIR must be set}"
+RECORDINGS_NEW_DIR="${BIRDSTATION_RECORDINGS_DIR}/new"
 
 echo "Starting recording loop → ${RECORDINGS_NEW_DIR}"
 
