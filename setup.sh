@@ -16,6 +16,7 @@ apt-get install -y --no-install-recommends \
 
 echo "==> Creating service user"
 id "$SERVICE_USER" &>/dev/null || useradd --system --shell /bin/false "$SERVICE_USER"
+usermod -aG audio "$SERVICE_USER"
 
 echo "==> Installing BirdNET-Analyzer"
 if [ ! -d "$BIRDNET_DIR" ]; then
