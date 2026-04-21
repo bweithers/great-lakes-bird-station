@@ -5,7 +5,6 @@
 set -euo pipefail
 
 INSTALL_DIR=/opt/birdstation
-BIRDNET_DIR=/opt/BirdNET-Analyzer
 SERVICE_USER=birdstation
 
 echo "==> Installing system packages"
@@ -18,13 +17,6 @@ echo "==> Creating service user"
 id "$SERVICE_USER" &>/dev/null || useradd --system --shell /bin/false "$SERVICE_USER"
 usermod -aG audio "$SERVICE_USER"
 
-echo "==> Installing BirdNET-Analyzer"
-if [ ! -d "$BIRDNET_DIR" ]; then
-    git clone https://github.com/kahst/BirdNET-Analyzer.git "$BIRDNET_DIR"
-    python3 -m venv "$BIRDNET_DIR/.venv"
-    "$BIRDNET_DIR/.venv/bin/pip" install -q -r "$BIRDNET_DIR/requirements.txt"
-fi
-
 echo "==> Installing birdstation package"
 if [ ! -d "$INSTALL_DIR" ]; then
     cp -r . "$INSTALL_DIR"
@@ -34,17 +26,17 @@ python3 -m venv "$INSTALL_DIR/.venv"
 
 echo "==> Creating directories"
 mkdir -p "$INSTALL_DIR/recordings/new" \
-         "$INSTALL_DIR/recordings/processed" \
-         "$INSTALL_DIR/results"
-chown -R "$SERVICE_USER:$SERVICE_USER" "$INSTALL_DIR"
+         "$INSTALL_DIR/recordings/processed"
+chown -R "$SERVICE_USER:$SERVICE_USER" "$INSTALL_DIR/recordings"
 chmod +x "$INSTALL_DIR/scripts/record.sh"
 
 echo "==> Initialising database"
-sudo -u "$SERVICE_USER" "$INSTALL_DIR/.venv/bin/python" -c "
+"$INSTALL_DIR/.venv/bin/python" -c "
 from birdstation.db import init_db
 init_db('$INSTALL_DIR/birds.duckdb')
 print('Database initialised.')
 "
+chown "$SERVICE_USER:$SERVICE_USER" "$INSTALL_DIR/birds.duckdb"
 
 if [ ! -f "$INSTALL_DIR/.env" ]; then
     echo "==> Configure environment"
@@ -66,7 +58,6 @@ BIRDSTATION_R2_BUCKET=$R2_BUCKET
 BIRDSTATION_DEPLOY_HOOK_URL=$DEPLOY_HOOK_URL
 BIRDSTATION_DUCKDB_PATH=$INSTALL_DIR/birds.duckdb
 BIRDSTATION_RECORDINGS_DIR=$INSTALL_DIR/recordings
-BIRDSTATION_BIRDNET_DIR=$BIRDNET_DIR
 EOF
     chmod 600 "$INSTALL_DIR/.env"
     chown "$SERVICE_USER:$SERVICE_USER" "$INSTALL_DIR/.env"
