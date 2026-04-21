@@ -17,7 +17,6 @@ class Config:
     deploy_hook_url: str
     duckdb_path: str
     recordings_dir: str
-    birdnet_dir: str
     min_confidence: float = 0.5
 
     @classmethod
@@ -27,7 +26,7 @@ class Config:
             "BIRDSTATION_R2_ENDPOINT", "BIRDSTATION_R2_ACCESS_KEY",
             "BIRDSTATION_R2_SECRET_KEY", "BIRDSTATION_R2_BUCKET",
             "BIRDSTATION_DEPLOY_HOOK_URL", "BIRDSTATION_DUCKDB_PATH",
-            "BIRDSTATION_RECORDINGS_DIR", "BIRDSTATION_BIRDNET_DIR",
+            "BIRDSTATION_RECORDINGS_DIR",
         ]
         missing = [k for k in required if not os.environ.get(k)]
         if missing:
@@ -43,6 +42,5 @@ class Config:
             deploy_hook_url=os.environ["BIRDSTATION_DEPLOY_HOOK_URL"],
             duckdb_path=os.environ["BIRDSTATION_DUCKDB_PATH"],
             recordings_dir=os.environ["BIRDSTATION_RECORDINGS_DIR"],
-            birdnet_dir=os.environ["BIRDSTATION_BIRDNET_DIR"],
             min_confidence=float(os.environ.get("BIRDSTATION_MIN_CONFIDENCE", "0.5")),
         )
